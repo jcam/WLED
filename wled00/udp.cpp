@@ -774,14 +774,23 @@ uint8_t realtimeBroadcast(uint8_t type, IPAddress client, uint16_t length, uint8
         /*8*/ddpUdp.write(0xFF & (packetSize >> 8));
         /*9*/ddpUdp.write(0xFF & (packetSize     ));
 
+        //hack to not send udp when all values are zero
+        uint32_t totalColorValue = 0;
+
         // write the colors, the write write(const uint8_t *buffer, size_t size)
         // function is just a loop internally too
         for (size_t i = 0; i < packetSize; i += (isRGBW?4:3)) {
+          totalColorValue += buffer[bufferOffset];
+          totalColorValue += buffer[bufferOffset+1];
+          totalColorValue += buffer[bufferOffset+2];
+          if (isRGBW) totalColorValue += buffer[bufferOffset+3];
           ddpUdp.write(scale8(buffer[bufferOffset++], bri)); // R
           ddpUdp.write(scale8(buffer[bufferOffset++], bri)); // G
           ddpUdp.write(scale8(buffer[bufferOffset++], bri)); // B
           if (isRGBW) ddpUdp.write(scale8(buffer[bufferOffset++], bri)); // W
         }
+
+        if (totalColorValue == 0) continue; //hack to not send udp when all values are zero
 
         if (!ddpUdp.endPacket()) {
           DEBUG_PRINTLN(F("WiFiUDP.endPacket returned an error"));
