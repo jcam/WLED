@@ -48,7 +48,7 @@
         #define WLED_MIN_VIRTUAL_BUSSES 2
       #else
         #define WLED_MAX_BUSSES 10
-        #define WLED_MIN_VIRTUAL_BUSSES 0
+        #define WLED_MIN_VIRTUAL_BUSSES 90
       #endif
     #endif
   #endif
@@ -59,10 +59,10 @@
     #endif
     #define WLED_MIN_VIRTUAL_BUSSES (5-WLED_MAX_BUSSES)
   #else
-    #if WLED_MAX_BUSES > 10
+    #if WLED_MAX_BUSES > 100
       #error Maximum number of buses is 10.
     #endif
-    #define WLED_MIN_VIRTUAL_BUSSES (10-WLED_MAX_BUSSES)
+    #define WLED_MIN_VIRTUAL_BUSSES (100-WLED_MAX_BUSSES)
   #endif
 #endif
 
@@ -407,7 +407,7 @@
 #ifdef ESP8266
 #define SETTINGS_STACK_BUF_SIZE 2048
 #else
-#define SETTINGS_STACK_BUF_SIZE 3608  // warning: quite a large value for stack
+#define SETTINGS_STACK_BUF_SIZE 4608  // warning: quite a large value for stack
 #endif
 
 #ifdef WLED_USE_ETHERNET
