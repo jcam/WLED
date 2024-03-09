@@ -361,17 +361,30 @@ void getSettingsJS(byte subPage, char* dest)
     for (uint8_t s=0; s < busses.getNumBusses(); s++) {
       Bus* bus = busses.getBus(s);
       if (bus == nullptr) continue;
-      char lp[4] = "L0"; lp[2] = 48+s; lp[3] = 0; //ascii 0-9 //strip data pin
-      char lc[4] = "LC"; lc[2] = 48+s; lc[3] = 0; //strip length
-      char co[4] = "CO"; co[2] = 48+s; co[3] = 0; //strip color order
-      char lt[4] = "LT"; lt[2] = 48+s; lt[3] = 0; //strip type
-      char ls[4] = "LS"; ls[2] = 48+s; ls[3] = 0; //strip start LED
-      char cv[4] = "CV"; cv[2] = 48+s; cv[3] = 0; //strip reverse
-      char sl[4] = "SL"; sl[2] = 48+s; sl[3] = 0; //skip 1st LED
-      char rf[4] = "RF"; rf[2] = 48+s; rf[3] = 0; //off refresh
-      char aw[4] = "AW"; aw[2] = 48+s; aw[3] = 0; //auto white mode
-      char wo[4] = "WO"; wo[2] = 48+s; wo[3] = 0; //swap channels
-      char sp[4] = "SP"; sp[2] = 48+s; sp[3] = 0; //bus clock speed
+      char lp[5] = "L0"; lp[2] = 48+s; lp[3] = 0; //ascii 0-9 //strip data pin
+      char lc[5] = "LC"; lc[2] = 48+s; lc[3] = 0; //strip length
+      char co[5] = "CO"; co[2] = 48+s; co[3] = 0; //strip color order
+      char lt[5] = "LT"; lt[2] = 48+s; lt[3] = 0; //strip type
+      char ls[5] = "LS"; ls[2] = 48+s; ls[3] = 0; //strip start LED
+      char cv[5] = "CV"; cv[2] = 48+s; cv[3] = 0; //strip reverse
+      char sl[5] = "SL"; sl[2] = 48+s; sl[3] = 0; //skip 1st LED
+      char rf[5] = "RF"; rf[2] = 48+s; rf[3] = 0; //off refresh
+      char aw[5] = "AW"; aw[2] = 48+s; aw[3] = 0; //auto white mode
+      char wo[5] = "WO"; wo[2] = 48+s; wo[3] = 0; //swap channels
+      char sp[5] = "SP"; sp[2] = 48+s; sp[3] = 0; //bus clock speed
+      if (s > 9) {
+        lp[2] = 48+s/10%10; lp[3] = 48+s%10; lp[4] = 0; //ascii 0-9 //strip data pin
+        lc[2] = 48+s/10%10; lc[3] = 48+s%10; lc[4] = 0; //strip length
+        co[2] = 48+s/10%10; co[3] = 48+s%10; co[4] = 0; //strip color order
+        lt[2] = 48+s/10%10; lt[3] = 48+s%10; lt[4] = 0; //strip type
+        ls[2] = 48+s/10%10; ls[3] = 48+s%10; ls[4] = 0; //strip start LED
+        cv[2] = 48+s/10%10; cv[3] = 48+s%10; cv[4] = 0; //strip reverse
+        sl[2] = 48+s/10%10; sl[3] = 48+s%10; sl[4] = 0; //skip 1st LED
+        rf[2] = 48+s/10%10; rf[3] = 48+s%10; rf[4] = 0; //off refresh
+        aw[2] = 48+s/10%10; aw[3] = 48+s%10; aw[4] = 0; //auto white mode
+        wo[2] = 48+s/10%10; wo[3] = 48+s%10; wo[4] = 0; //swap channels
+        sp[2] = 48+s/10%10; sp[3] = 48+s%10; sp[4] = 0; //bus clock speed
+      }
       oappend(SET_F("addLEDs(1);"));
       uint8_t pins[5];
       uint8_t nPins = bus->getPins(pins);
